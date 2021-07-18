@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Gebrauchtwagen und Neuwagen bei AutoScout24</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+<script id="mp_template" type="text/template">
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Seller Type</th>
+      <th>Average in Euro</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {{#eachkeys data}}
+    <tr>
+      <td>{{this.key}}</td>
+      <td>€ {{this.value}},-</td>
+    </tr>
+    {{/eachkeys}}
+    </tbody>
+  </table>
+</script>
+
+<div class="container">
+  <div class="row">
+    <div class="col-3"> </div>
+
+    <div class="col-6">
+      <h2>Average Listing Selling Price per Seller Type</h2>
+
+    <div id="avg-listing"> </div>
+    </div>
+
+    <div>
+      <a class="btn btn-info" href="distribution.html">Distribution (in percent) of available cars by Make</a>
+      <a class="btn btn-info" href="avgPrice.html">Average price of the 30% most contacted listings</a>
+      <a class="btn btn-info" href="topContacted.html">The Top 5 most contacted listings per Month</a>
+    </div>
+
+    <div class="col-3"> </div>
+  </div>
+</div>
+
+
+
+<script src="js/jquery-3.6.0.min.js" ></script>
+<script src="js/bootstrap.bundle.min.js" ></script>
+<script src="js/handlebars.js"></script>
+<script src="js/app.js" ></script>
+
+
+<script>
+  Handlebars.registerHelper('eachkeys', function(context, options) {
+    const fn = options.fn, inverse = options.inverse;
+    let ret = "";
+
+    let empty = true;
+    for (key in context) { empty = false; break; }
+
+    if (!empty) {
+      for (key in context) {
+        ret = ret + fn({ 'key': key, 'value': context[key]});
+      }
+    } else {
+      ret = inverse(this);
+    }
+    return ret;
+  });
+</script>
+<script>
+  $.get("http://localhost:8080//avg-listing-selling-price")
+          .done(function( data ) {
+            var source   = $("#mp_template").html();
+            var template = Handlebars.compile(source);
+            $('#avg-listing').html(template({'data': data}));
+          });
+
+</script>
+
+</body>
+</html>
