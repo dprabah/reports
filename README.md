@@ -13,4 +13,7 @@
 ## How to run tests
 - the maven command `mvn test` will execute tests.
 
+## Data file
+- `listings.csv` and `contacts.csv` files are attached with this project.
+
 [localhost]: http://localhost:8080/
