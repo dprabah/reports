@@ -8,6 +8,7 @@
 - This installs required dependencies and runs the test.
 
 ## Properties files
+### !! update `file.upload_dir` property
 - in `application.properties` file set `file.upload_dir` property, which defines where the csv file should save in server.
 
 ## How to run tests
